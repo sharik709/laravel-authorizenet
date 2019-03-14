@@ -1,5 +1,5 @@
 {
-    "name": "sharik/laravel-authorizenet",
+    "name": "sharik709/laravel-authorizenet",
     "description": "This package allows laravel application to use authorizenet api easily.",
     "type": "library",
     "require": {

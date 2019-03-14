@@ -1,0 +1,19 @@
+{
+    "name": "sharik/laravel-authorizenet",
+    "description": "This package allows laravel application to use authorizenet api easily.",
+    "type": "library",
+    "require": {
+        "authorizenet/authorizenet": "^2.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sharik Shaikh",
+            "email": "shaikhsharik709@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}

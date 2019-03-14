@@ -12,7 +12,7 @@ do composer require
 If you are using laravel 5.5 or above then you do not need to register service provider. If you are using 5.4 or less then you will need to register service provider in you ```config/app.php``` ```providers``` array.
 
 ```php
-anet/ServiceProvider/AuthorizeNetServiceProvider::class
+ANet/AuthorizeNetServiceProvider::class
 ```
 
 ### Step 3

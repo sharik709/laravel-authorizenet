@@ -15,5 +15,14 @@
             "email": "shaikhsharik709@gmail.com"
         }
     ],
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "ANet\\ServiceProvider\\AuthorizeNetServiceProvider"
+            ],
+            "aliases": {
+            }
+        }
+    }
 }

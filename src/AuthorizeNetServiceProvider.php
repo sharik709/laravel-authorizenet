@@ -7,16 +7,28 @@ class AuthorizeNetServiceProvider extends ServiceProvider
 
 
     public function boot() {
+        $this->setupConfig();
+    }
+
+    /**
+     * It will setup configuration file
+     * @return void
+     */
+    public function setupConfig():void
+    {
+        $configLocation = __DIR__.'/Config/authorizenet.php';
+        
         $this->publishes([
-            __DIR__.'/Config/authorizenet.php' => config_path('authorizenet.php')
+            $configLocation => config_path('authorizenet.php')
         ], 'authorizenet');
+
+        $this->mergeConfigFrom(
+            $configLocation,
+            'authorizenet'
+        );
     }
 
     public function register() {
-        $this->mergeConfigFrom(
-            __DIR__.'/Config/authorizenet.php',
-            'authorizenet'
-        );
     }
 
 

@@ -13,9 +13,7 @@ class ANetTest extends TestCase
     protected function setUp():void 
     {
         parent::setUp();
-        dd(config('authorizenet'));
-        $this->user = Mockery::mock(config('authorizenet.user_model'))
-                        ->getMock();
+        $this->user = Mockery::mock(App\User::class);
         $this->anet = new Anet($this->user);
     }
 
@@ -23,8 +21,9 @@ class ANetTest extends TestCase
     public function it_tests_if_user_can_be_set()
     {
         $this->anet->setUser($this->user);
-        $this->assertEquals($this->user, $this->anet->user);
+        $this->assertEquals($this->user, $this->anet->getUser());
     }
+
 
 
 }

@@ -9,7 +9,6 @@ class AuthorizeNetUserTraitClass {
     use TestableTrait;
 }
 
-
 class AuthorizeNetUserTraitTest extends TestCase {
 
     public $trait;

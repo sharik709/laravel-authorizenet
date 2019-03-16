@@ -32,7 +32,10 @@ class ANet
         return $this->user;
     }
 
-
+    public function charge($amount, $paymentProfileId)
+    {
+        return (new Charge($this->getUser()))->charge($amount, $paymentProfileId);
+    }
 
 
 

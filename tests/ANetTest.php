@@ -13,7 +13,7 @@ class ANetTest extends TestCase
     protected function setUp():void 
     {
         parent::setUp();
-        $this->user = Mockery::mock(App\User::class);
+        $this->user = factory(\App\User::class)->create();
         $this->anet = new Anet($this->user);
     }
 
@@ -24,6 +24,15 @@ class ANetTest extends TestCase
         $this->assertEquals($this->user, $this->anet->getUser());
     }
 
+    /** @test */
+    public function it_will_test_if_customer_profile_can_be_created()
+    {
+        $response = $this->user->anet()->createCustomerProfile();
+        dd($response);
+        $this->assertDatabaseHas('anet_customer_profiles', [
+            'user_id' => $this->user->id
+        ]);
+    }
 
 
 }

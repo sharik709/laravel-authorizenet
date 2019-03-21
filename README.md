@@ -54,6 +54,32 @@ It takes first parameter as cents and seconds parameter is the options you can p
 #### This package is under development. Please do not use this in production
 
 ---
+## Avaiable Methods
+```php
+$user->anet()->charge(1200, $paymentProfile); // $12
+```
+
+It will create customer profile on authorizenet
+```php
+$user->anet()->createCustomerProfile();
+```
+
+It will return authorizenet's customer profile id
+```php
+$user->anet()->getCustomerProfileId();
+```
+
+```php
+$user->anet()->getPaymentProfiles();
+```
+
+```php
+$user->anet()->createPaymentProfile();
+```
+
+
+
+__
 
 # License
 MIT

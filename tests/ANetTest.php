@@ -55,10 +55,20 @@ class ANetTest extends BaseTestCase
         ]);
     }
 
+    /** @test */
+    public function it_will_return_all_payment_profiles_for_a_user()
+    {
+        $user = $this->getCustomerWithPaymentProfile();
+
+        $this->assertCount(1, $user->anet()->getPaymentProfiles());
+    }
+
+    /** @test */
     public function it_will_charge_the_user()
     {
-        $user = $this->generateCustomerId();
-        $user->anet()->charge(1200);
+        $user = $this->getCustomerWithPaymentProfile();
+        $charge = $user->anet()->charge(1200, $user->anet()->getPaymentProfiles()[0]);
+        $this->assertInstanceOf(net\authorize\api\contract\v1\CreateTransactionResponse::class, $charge);
     }
 
 }

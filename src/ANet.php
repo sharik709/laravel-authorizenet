@@ -3,6 +3,7 @@ namespace ANet;
 
 use ANet\CustomerProfile\CustomerProfile;
 use ANet\PaymentProfile\PaymentProfile;
+use ANet\PaymentProfile\PaymentProfileCharge;
 
 class ANet {
 
@@ -50,5 +51,27 @@ class ANet {
         return (new PaymentProfile($this->user))->create($opaqueData);
     }
 
+    /**
+     * @return mixed
+     */
+    public function getPaymentProfiles()
+    {
+        $data = \DB::table('user_payment_profiles')
+                    ->where('user_id', $this->user->id)
+                    ->get();
+        return $data->map(function($profile){
+            return $profile->payment_profile_id;
+        });
 
+    }
+
+    /**
+     * @param $cents
+     * @param null $paymentProfileId
+     * @return
+     */
+    public function charge($cents, $paymentProfileId)
+    {
+        return (new PaymentProfileCharge($this->user))->charge($cents, $paymentProfileId);
+    }
 }

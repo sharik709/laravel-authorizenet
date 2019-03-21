@@ -32,6 +32,18 @@ abstract class BaseTestCase extends \Tests\TestCase
         return $user;
     }
 
+    public function getCustomerWithPaymentProfile($user = null) {
+        if( is_null($user) ) {
+            $user = $this->generateCustomerId();
+        }
+        $opaqueData = $this->getOpaqueData();
+        $user->anet()->createPaymentProfile([
+            'dataValue' => $opaqueData->dataValue,
+            'dataDescriptor' => $opaqueData->dataDescriptor
+        ]);
+        return $user;
+    }
+
     public function getOpaqueData()
     {
         $payload = '{

@@ -1,15 +1,18 @@
-<?php namespace ANet\Traits;
+<?php
+namespace ANet\Traits;
 
 use ANet\ANet;
 
-trait AuthorizeNetUserTrait
+trait ANetPayments
 {
+
     /**
-     * It will return instance of a operations class
      * @return ANet
      */
     public function anet()
     {
         return new ANet($this);
     }
+
+
 }

@@ -5,7 +5,9 @@ use Illuminate\Support\ServiceProvider;
 class AuthorizeNetServiceProvider extends ServiceProvider
 {
 
-
+    /**
+     * @return void
+     */
     public function boot() {
         $this->setupConfig();
     }
@@ -28,8 +30,7 @@ class AuthorizeNetServiceProvider extends ServiceProvider
         );
     }
 
-    public function register() {
-    }
+    public function register() {}
 
 
 

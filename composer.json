@@ -6,7 +6,7 @@
         "authorizenet/authorizenet": "^2.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8.0"
+        "phpunit/phpunit": "^8.0",
     },
     "license": "MIT",
     "authors": [
@@ -15,6 +15,12 @@
             "email": "shaikhsharik709@gmail.com"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "ANet\\": "./src/",
+            "ANet\\Test\\": "./tests"
+        }
+    },
     "minimum-stability": "dev",
     "extra": {
         "laravel": {

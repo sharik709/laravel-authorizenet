@@ -1,38 +1,24 @@
 <?php
 
-use ANet\Test\TestCase;
-use ANet\ANet;
+use ANet\Test\BaseTestCase;
+use ANet\Traits\ANetPayments;
 
-class ANetTest extends TestCase
+class User {
+    use ANetPayments;
+}
+
+
+
+class ANetTest extends BaseTestCase
 {
-    /** @var ANet */
-    protected $anet;
-
-    protected $user;
-
-    protected function setUp():void 
-    {
-        parent::setUp();
-        $this->user = factory(\App\User::class)->create();
-        $this->anet = new Anet($this->user);
-    }
-
     /** @test */
-    public function it_tests_if_user_can_be_set()
+    public function it_will_test_if_trait_implemented_class_returns_instance_of_anet_class()
     {
-        $this->anet->setUser($this->user);
-        $this->assertEquals($this->user, $this->anet->getUser());
+        $user = new User;
+        $this->assertInstanceOf('ANet\ANet', $user->anet());
     }
 
-    /** @test */
-    public function it_will_test_if_customer_profile_can_be_created()
-    {
-        $response = $this->user->anet()->createCustomerProfile();
-        dd($response);
-        $this->assertDatabaseHas('anet_customer_profiles', [
-            'user_id' => $this->user->id
-        ]);
-    }
+    public function it_will_allow_user_to_
 
 
 }

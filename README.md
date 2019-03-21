@@ -18,35 +18,77 @@ ANet/AuthorizeNetServiceProvider::class
 ### Step 3
 in your ```.env``` file you will need to define following keys
 ```
-AUTHORIZE_NET_TRANSACTION_KEY=
-AUTHORIZE_NET_LOGIN_ID=
-AUTHORIZE_NET_CLIENT_KEY=
+[AUTHORIZE NET]
+LoginID=
+ClientKey=
+TransactionKey=
 ```
 you can obtain above information from authorize.net's sandbox or live account. It's best if you define above keys in your ```.env.example``` file as well
 
 ### Step 4
-This package requries a table to hold records for cards profile ids and other information. So, You will need to run migration to migrate this package's tables.
+This package requires a table to hold records for cards profile ids and other information. So, You will need to run migration to migrate this package's tables.
 ```php
 php artisan migrate
 ```
 ---
 
 ## Usage
----
-## Create Authorize.net customer profile
+
+#### Create Authorize.net customer profile
 ```php
 $user->anet()->createCustomerProfile();
 ```
-It will check if you have already have created a profile for this customer. If not then it will create profile and get you the profile of the customer.
+Saving credit card information in database is a risk and also you have to be PCI complient in order to save credit card information in your database.
+Small business do not want the hassle of PCI.
+
+Small Businesses just want to charge their customer and be done with it. To solve this problem authorize.net provides acceptjs.
+It will allow you to send credit card details directly to authorize.net and then they will send you some data called opaque data. You will need to submit two values from
+opaque data 'DataValue' and 'DataDescriptor'.
+
+In order to create charge a customer. You first should create their profile on authorize.net.
+
+That way authorize.net will keep all card and bank details inside customer profile.
+
+Later, you can use customer profile id to get payment and other details. This package allows you to simple call ```$user->anet()->createCustomerProfile()```
+and you are ready to move.
 
 ---
 
-## Charge a Card
+#### Payment Profile
+```php
+$user->anet()->createPaymentProfile([
+    'dataValue' => $opaqueData->dataValue,
+    'dataDescriptor' => $opaqueData->dataDescriptor
+])
+```
+Payment Profile is a way to solve a problem with storing credit and bank details in database.
+
+In order to save credit card or bank details in database you need to be PCI complient. Which in case of
+small business not ideal to do. So, Instead of using actual card numbers and bank details you can use
+payment profiles it is a unique id generated for a credit card or bank. Which you can send to database and charge
+credit card or bank account.
+
+In order to create payment profile you need to get setup a form and authorize.net provides Accept.js which will take data from
+your from and send it to authorize.net and once validated authorize.net will send you ```$opaqueData``` which then
+needs to be sent to your server and process creation for a payment profile. 
+
+After creating a payment profile successfully. You will get Payment Profile ID. Which you can use to charge that 
+card or bank account.
+
+---
+
+#### Charge a Card Token ( Opaque Data )
 ```php
 // Amount in cents and options for more information
-$user->charge(19000, []);
+$user->anet()->charge(19000, $paymentProfileId]);
 ```
-It takes first parameter as cents and seconds parameter is the options you can pass in.
+User can be charged with Payment Profile.
+
+Payment Profile is a unique id for a credit card or bank. Read about Payment Profile above.
+
+Most people prefer saving charge amount in cents. So, You pass in the cents you want to charge like ```1000``` cents for ```$10```
+
+
 
 ---
 
@@ -54,7 +96,7 @@ It takes first parameter as cents and seconds parameter is the options you can p
 #### This package is under development. Please do not use this in production
 
 ---
-## Avaiable Methods
+## Available Methods
 ```php
 $user->anet()->charge(1200, $paymentProfile); // $12
 ```

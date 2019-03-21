@@ -9,6 +9,7 @@ class AuthorizeNetServiceProvider extends ServiceProvider
      * @return void
      */
     public function boot() {
+        $this->loadMigrationsFrom(__DIR__.'/database/migrations');
         $this->setupConfig();
     }
 
@@ -23,7 +24,6 @@ class AuthorizeNetServiceProvider extends ServiceProvider
         $this->publishes([
             $configLocation => config_path('authorizenet.php')
         ], 'authorizenet');
-
         $this->mergeConfigFrom(
             $configLocation,
             'authorizenet'

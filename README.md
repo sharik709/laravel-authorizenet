@@ -30,6 +30,17 @@ This package requires a table to hold records for cards profile ids and other in
 ```php
 php artisan migrate
 ```
+
+### Step 5
+To make ```anet()``` method available on your user model then you need to add a trait to your model
+```php
+use ANet\Traits\ANetPayments;
+
+class User extends Model {
+    use ANetPayments;
+}
+``` 
+
 ---
 
 ## Usage

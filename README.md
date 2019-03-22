@@ -32,7 +32,7 @@ php artisan migrate
 ```
 
 ### Step 5
-To make ```anet()``` method available on your user model then you need to add a trait to your model
+To make ```anet()``` method available on your user model. You need to add ```ANet\Traits\ANetPayments``` trait to your model.
 ```php
 use ANet\Traits\ANetPayments;
 

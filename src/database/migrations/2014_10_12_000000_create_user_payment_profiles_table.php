@@ -17,6 +17,12 @@ class CreateUserPaymentProfilesTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedInteger('user_id');
             $table->string('payment_profile_id');
+            $table->string('last_4');
+            $table->enum('type', [
+                'bank',
+                'card'
+            ]);
+            $table->string('brand');
             $table->timestamps();
         });
     }

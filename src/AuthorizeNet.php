@@ -26,9 +26,29 @@ abstract class AuthorizeNet
     public function getMerchantAuthentication() : AnetAPI\MerchantAuthenticationType
     {
         $this->merchantAuthentication = new AnetAPI\MerchantAuthenticationType();
-        $this->merchantAuthentication->setName(config('authorizenet.login_id'));
-        $this->merchantAuthentication->setTransactionKey(config('authorizenet.transaction_key'));
+        $this->merchantAuthentication->setName($this->_getLoginID());
+        $this->merchantAuthentication->setTransactionKey($this->_getTransactionKey());
         return $this->merchantAuthentication;
+    }
+
+    private function _getLoginID() {
+        $loginId = config('authorizenet.login_id');
+
+        if (!$loginId) {
+            throw new \Exception('Please provide Login ID in .env file. Which you can get from authorize.net');
+        }
+
+        return $loginId;
+    }
+
+    private function _getTransactionKey() {
+        $transactionKey = config('authorizenet.transaction_key');
+
+        if (!$transactionKey) {
+            throw new \Exception('Please provide Login ID in .env file. Which you can get from authorize.net');
+        }
+
+        return $transactionKey;
     }
 
     /**

@@ -1,8 +1,6 @@
 <?php
 
-use ANet\Test\BaseTestCase;
-use ANet\Traits\ANetPayments;
-
+namespace ANet\Tests;
 
 class ANetTest extends BaseTestCase
 {
@@ -41,10 +39,16 @@ class ANetTest extends BaseTestCase
 
         $opaqueData = $this->getOpaqueData();
 
+        $source     = [
+            'type'      => 'card',
+            'last_4'    => '1111',
+            'brand'     => 'visa'
+        ];
+
         $paymentProfile = $user->anet()->createPaymentProfile([
             'dataValue' => $opaqueData->dataValue,
             'dataDescriptor' => $opaqueData->dataDescriptor
-        ]);
+        ], $source);
 
         $this->assertNotNull($paymentProfile->getCustomerProfileId());
         $this->assertNotNull($paymentProfile->getCustomerPaymentProfileId());
@@ -68,7 +72,7 @@ class ANetTest extends BaseTestCase
     {
         $user = $this->getCustomerWithPaymentProfile();
         $charge = $user->anet()->charge(1200, $user->anet()->getPaymentProfiles()[0]);
-        $this->assertInstanceOf(net\authorize\api\contract\v1\CreateTransactionResponse::class, $charge);
+        $this->assertInstanceOf(\net\authorize\api\contract\v1\CreateTransactionResponse::class, $charge);
     }
 
 }

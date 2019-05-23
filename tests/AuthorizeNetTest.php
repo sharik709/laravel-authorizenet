@@ -1,9 +1,9 @@
 <?php
 
-namespace ANet\Test;
+namespace ANet\Tests;
 
 use ANet\AuthorizeNet;
-use ANet\Test\BaseTestCase;
+use ANet\Tests\BaseTestCase;
 use net\authorize\api\contract\v1\TransactionRequestType;
 use net\authorize\api\controller\GetHostedPaymentPageController;
 use stdClass;

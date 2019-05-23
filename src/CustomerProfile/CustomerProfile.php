@@ -24,12 +24,12 @@ class CustomerProfile extends AuthorizeNet {
      */
     public function create()
     {
-        $customerProfileDraft = $this->draftCustomerProfile();
-        $request = $this->draftRequest($customerProfileDraft);
-        $controller = new AnetController\CreateCustomerProfileController($request);
+        $customerProfileDraft   = $this->draftCustomerProfile();
+        $request                = $this->draftRequest($customerProfileDraft);
+        $controller             = new AnetController\CreateCustomerProfileController($request);
 
-        $response = $this->execute($controller);
-        $response = $this->handleCreateCustomerResponse($response);
+        $response               = $this->execute($controller);
+        $response               = $this->handleCreateCustomerResponse($response);
 
         if( method_exists($response, 'getCustomerProfileId') ) {
             $this->persistInDatabase($response->getCustomerProfileId());
@@ -46,9 +46,11 @@ class CustomerProfile extends AuthorizeNet {
     protected function handleCreateCustomerResponse(AnetAPI\CreateCustomerProfileResponse $response)
     {
         if( is_null($response->getCustomerProfileId() )) {
-            dd(
-                $response->getMessages()->getMessage()[0]->getText()
-            );
+            if (app()->environment() == 'local') {
+                dd(
+                    $response->getMessages()->getMessage()[0]->getText()
+                );
+            }
             Log::debug($response->getMessages()->getMessage()[0]->getText());
             throw new \Exception('Failed, To create customer profile.');
         }
@@ -89,9 +91,11 @@ class CustomerProfile extends AuthorizeNet {
     protected function draftRequest(AnetAPI\CustomerProfileType $customerProfile): AnetAPI\CreateCustomerProfileRequest
     {
         $request = new AnetAPI\CreateCustomerProfileRequest();
+
         $request->setMerchantAuthentication($this->getMerchantAuthentication());
         $request->setRefId($this->getRefId());
         $request->setProfile($customerProfile);
+
         return $request;
     }
 

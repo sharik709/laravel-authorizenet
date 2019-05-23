@@ -44,11 +44,12 @@ class ANet {
 
     /**
      * @param $opaqueData
+     * @param array $source
      * @return mixed
      */
-    public function createPaymentProfile($opaqueData)
+    public function createPaymentProfile($opaqueData, array $source)
     {
-        return (new PaymentProfile($this->user))->create($opaqueData);
+        return (new PaymentProfile($this->user))->create($opaqueData, $source);
     }
 
     /**
@@ -62,7 +63,6 @@ class ANet {
         return $data->map(function($profile){
             return $profile->payment_profile_id;
         });
-
     }
 
     /**

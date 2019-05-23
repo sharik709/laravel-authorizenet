@@ -1,17 +1,11 @@
 <?php
 
-namespace ANet\Test;
+namespace ANet\Tests;
 
-use function get_class_methods;
-use function http_build_query;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use function json_decode;
-use function json_encode;
-use function preg_replace;
-use stdClass;
-use function str_replace;
+use Tests\TestCase;
 
-abstract class BaseTestCase extends \Tests\TestCase
+abstract class BaseTestCase extends TestCase
 {
     use DatabaseMigrations;
 
@@ -29,6 +23,7 @@ abstract class BaseTestCase extends \Tests\TestCase
             $user = $this->getFakeUser();
         }
         $user->anet()->createCustomerProfile();
+
         return $user;
     }
 
@@ -36,11 +31,19 @@ abstract class BaseTestCase extends \Tests\TestCase
         if( is_null($user) ) {
             $user = $this->generateCustomerId();
         }
+
         $opaqueData = $this->getOpaqueData();
+        $source     = [
+            'type'      => 'card',
+            'last_4'    => '1111',
+            'brand'     => 'visa'
+        ];
+
         $user->anet()->createPaymentProfile([
             'dataValue' => $opaqueData->dataValue,
             'dataDescriptor' => $opaqueData->dataDescriptor
-        ]);
+        ], $source);
+
         return $user;
     }
 

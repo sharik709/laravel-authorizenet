@@ -15,7 +15,7 @@ Small Businesses just want to charge their customer and be done with it. To solv
 It will allow you to send credit card details directly to authorize.net and then they will send you some data called opaque data. You will need to submit two values from
 opaque data 'DataValue' and 'DataDescriptor'.
 
-In order to charge a customer. You should first create their profile on authorize.net.
+In order to charge a customer. You should first create their profile on authorize.net via above function.
 
 That way authorize.net will keep all cards and banks details inside customer profile.
 
@@ -62,8 +62,21 @@ Most people prefer saving charge amount in cents. So, You pass in the cents you 
 
 ---
 
+#### Refunding transaction
+```php
+$user->anet()->refund($amount_in_cents, $refsTransId, $payment_profile_id);
+```
+
+`$amount_in_cents` it the refund amount.
+
+`$refsTransId` You get this id when you charge a user
+
+`$payment_profile_id` read above for more information on payment profile id. Basically, here it means refund to given payment profile id
+
+---
+
 # Under Development
-#### This package is under development. Please do not use this in production
+#### I'm using this code on production but please be sure. That it does what you expect before using it in production.
 
 ---
 ## Available Methods

@@ -4,6 +4,7 @@ namespace ANet;
 use ANet\CustomerProfile\CustomerProfile;
 use ANet\PaymentProfile\PaymentProfile;
 use ANet\PaymentProfile\PaymentProfileCharge;
+use ANet\PaymentProfile\PaymentProfileRefund;
 
 class ANet {
 
@@ -73,5 +74,16 @@ class ANet {
     public function charge($cents, $paymentProfileId)
     {
         return (new PaymentProfileCharge($this->user))->charge($cents, $paymentProfileId);
+    }
+
+    /**
+     * @param $cents
+     * @param $refTransId
+     * @param $paymentProfileId
+     * @return mixed
+     */
+    public function refund($cents, $refTransId, $paymentProfileId)
+    {
+        return (new PaymentProfileRefund($this->user))->handle($cents, $refTransId, $paymentProfileId);
     }
 }

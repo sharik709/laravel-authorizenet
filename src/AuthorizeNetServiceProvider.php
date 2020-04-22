@@ -20,7 +20,6 @@ class AuthorizeNetServiceProvider extends ServiceProvider
     public function setupConfig():void
     {
         $configLocation = __DIR__.'/Config/authorizenet.php';
-        
         $this->publishes([
             $configLocation => config_path('authorizenet.php')
         ], 'authorizenet');

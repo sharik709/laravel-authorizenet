@@ -2,47 +2,6 @@
 
 This package is built on top of official authorizenet package. Which is ```authorizenet/authorizenet```.
 
-## Steps to install
-
-### Step 1
-do composer require
-```composer require sharik709/laravel-authorizenet```
-
-### Step 2
-If you are using laravel 5.5 or above then you do not need to register service provider. If you are using 5.4 or less then you will need to register service provider in you ```config/app.php``` ```providers``` array.
-
-```php
-ANet/AuthorizeNetServiceProvider::class
-```
-
-### Step 3
-in your ```.env``` file you will need to define following keys
-```
-[AUTHORIZE NET]
-LoginID=
-ClientKey=
-TransactionKey=
-```
-you can obtain above information from authorize.net's sandbox or live account. It's best if you define above keys in your ```.env.example``` file as well
-
-### Step 4
-This package requires a table to hold records for cards profile ids and other information. So, You will need to run migration to migrate this package's tables.
-```php
-php artisan migrate
-```
-
-### Step 5
-To make ```anet()``` method available on your user model. You need to add ```ANet\Traits\ANetPayments``` trait to your model.
-```php
-use ANet\Traits\ANetPayments;
-
-class User extends Model {
-    use ANetPayments;
-}
-``` 
-
----
-
 ## Usage
 
 #### Create Authorize.net customer profile
@@ -136,3 +95,45 @@ __
 
 # License
 MIT
+----
+
+## Steps to install
+
+### Step 1
+do composer require
+```composer require sharik709/laravel-authorizenet```
+
+### Step 2
+If you are using laravel 5.5 or above then you do not need to register service provider. If you are using 5.4 or less then you will need to register service provider in you ```config/app.php``` ```providers``` array.
+
+```php
+ANet/AuthorizeNetServiceProvider::class
+```
+
+### Step 3
+in your ```.env``` file you will need to define following keys
+```
+[AUTHORIZE NET]
+LoginID=
+ClientKey=
+TransactionKey=
+```
+you can obtain above information from authorize.net's sandbox or live account. It's best if you define above keys in your ```.env.example``` file as well
+
+### Step 4
+This package requires a table to hold records for cards profile ids and other information. So, You will need to run migration to migrate this package's tables.
+```php
+php artisan migrate
+```
+
+### Step 5
+To make ```anet()``` method available on your user model. You need to add ```ANet\Traits\ANetPayments``` trait to your model.
+```php
+use ANet\Traits\ANetPayments;
+
+class User extends Model {
+    use ANetPayments;
+}
+``` 
+
+---

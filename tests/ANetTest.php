@@ -75,4 +75,17 @@ class ANetTest extends BaseTestCase
         $this->assertInstanceOf(\net\authorize\api\contract\v1\CreateTransactionResponse::class, $charge);
     }
 
+    /** @test */
+    public function it_will_refund_user()
+    {
+        $user = $this->getCustomerWithPaymentProfile();
+        $charge = $user->anet()->charge(1200, $user->anet()->getPaymentProfiles()[0]);
+        $paymentProfileId = $user->anet()->getPaymentProfiles()->first();
+        $refTransId = $charge->getTransactionResponse()->getRefTransID();
+        $refundTransaction = $user->anet()->refund(300, $refTransId, $paymentProfileId);
+        $response = $refundTransaction->getTransactionResponse();
+        $messageBag = $response->getMessages();
+        $text = $messageBag[0]->getDescription();
+        $this->assertEquals('This transaction has been approved.', $text);
+    }
 }

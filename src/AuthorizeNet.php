@@ -33,7 +33,6 @@ abstract class AuthorizeNet
 
     private function _getLoginID() {
         $loginId = config('authorizenet.login_id');
-
         if (!$loginId) {
             throw new \Exception('Please provide Login ID in .env file. Which you can get from authorize.net');
         }
@@ -43,9 +42,8 @@ abstract class AuthorizeNet
 
     private function _getTransactionKey() {
         $transactionKey = config('authorizenet.transaction_key');
-
         if (!$transactionKey) {
-            throw new \Exception('Please provide Login ID in .env file. Which you can get from authorize.net');
+            throw new \Exception('Please provide transaction key in .env file. Which you can get from authorize.net');
         }
 
         return $transactionKey;

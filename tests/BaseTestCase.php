@@ -78,9 +78,9 @@ abstract class BaseTestCase extends TestCase
                 'content' => $payload,
             ),
         )));
-        if(get_magic_quotes_gpc()){
-            $result = stripslashes($result);
-        }
+//        if(get_magic_quotes_gpc()){ Deprecated in php7.4
+//            $result = stripslashes($result);
+//        }
 
         $result = utf8_decode($result);
         $out = json_decode(str_replace("?", "", $result));

@@ -24,7 +24,7 @@ and you are ready to move.
 
 ---
 
-#### Payment Profile
+#### Create Payment Profile
 ```php
 $user->anet()->createPaymentProfile([
     'dataValue' => $opaqueData->dataValue,
@@ -47,7 +47,25 @@ card or bank account for which this payment profile is created and you can reuse
 
 ---
 
-#### Charge a Payment Profile
+#### Get Payment Profiles (Get added Cards and Bank Accounts)
+```php
+$paymentMethods = $user->anet()->getPaymentMethods();
+```
+It will allow you to get all payment methods or payment profiles created by you.  
+
+to only get card. You can use.
+```php
+$paymentCards = $user->anet()->getPaymentCardProfiles();
+```
+to only get bank. You can use.
+```php
+$paymentBanks = $user->anet()->getPaymentBankProfiles();
+```
+
+---
+
+
+#### Charge a Payment Profile (Charge Card or Bank)
 ```php
 // Amount in cents 
 $user->anet()->charge(19000, $paymentProfileId]);
@@ -61,6 +79,8 @@ Most people prefer saving charge amount in cents. So, You pass in the cents you 
 
 
 ---
+
+
 
 #### Refunding transaction
 ```php

@@ -2,6 +2,8 @@
 
 namespace ANet\Tests;
 
+use App\User;
+
 class ANetTest extends BaseTestCase
 {
     /** @test */
@@ -87,5 +89,80 @@ class ANetTest extends BaseTestCase
         $messageBag = $response->getMessages();
         $text = $messageBag[0]->getDescription();
         $this->assertEquals('This transaction has been approved.', $text);
+    }
+
+    /** @test */
+    public function it_will_fetch_all_given_payment_methods()
+    {
+        $user = $this->getCustomerWithPaymentProfile();
+
+        \DB::table('user_payment_profiles')->insert([
+            'user_id'               => $user->id,
+            'payment_profile_id'    => '123123123',
+            'last_4'                => '1111',
+            'brand'                 => 'Visa',
+            'type'                  => 'card'
+        ]);
+
+        $paymentCards = $user->anet()->getPaymentMethods();
+        $this->assertCount(2, $paymentCards);
+    }
+
+    /** @test */
+    public function it_will_fetch_all_given_cards()
+    {
+        $user = $this->getCustomerWithPaymentProfile();
+
+        \DB::table('user_payment_profiles')->insert([
+            'user_id'               => $user->id,
+            'payment_profile_id'    => '123123123',
+            'last_4'                => '1111',
+            'brand'                 => 'Visa',
+            'type'                  => 'card'
+        ]);
+
+        $paymentCards = $user->anet()->getPaymentCardProfiles();
+        $this->assertCount(2, $paymentCards);
+    }
+
+    /** @test */
+    public function it_will_fetch_all_given_banks()
+    {
+        $user = $this->getCustomerWithPaymentProfile();
+
+        \DB::table('user_payment_profiles')->insert([
+            'user_id'               => $user->id,
+            'payment_profile_id'    => '123123123',
+            'last_4'                => '1111',
+            'brand'                 => 'Visa',
+            'type'                  => 'bank'
+        ]);
+
+        $paymentCards = $user->anet()->getPaymentBankProfiles();
+        $this->assertCount(1, $paymentCards);
+    }
+
+    /** @test */
+    public function it_will_return_empty_collection_as_no_payment_methods_exists()
+    {
+        $user = factory(User::class)->create();
+        $paymentCards = $user->anet()->getPaymentMethods();
+        $this->assertCount(0, $paymentCards);
+    }
+
+    /** @test */
+    public function it_will_return_empty_collection_as_no_payment_card_profile_exists()
+    {
+        $user = factory(User::class)->create();
+        $paymentCards = $user->anet()->getPaymentCardProfiles();
+        $this->assertCount(0, $paymentCards);
+    }
+
+    /** @test */
+    public function it_will_return_empty_collection_as_no_payment_bank_profile_exists()
+    {
+        $user = factory(User::class)->create();
+        $paymentCards = $user->anet()->getPaymentBankProfiles();
+        $this->assertCount(0, $paymentCards);
     }
 }

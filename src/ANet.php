@@ -5,6 +5,7 @@ use ANet\CustomerProfile\CustomerProfile;
 use ANet\PaymentProfile\PaymentProfile;
 use ANet\PaymentProfile\PaymentProfileCharge;
 use ANet\PaymentProfile\PaymentProfileRefund;
+use Illuminate\Support\Collection;
 
 class ANet {
 
@@ -86,4 +87,31 @@ class ANet {
     {
         return (new PaymentProfileRefund($this->user))->handle($cents, $refTransId, $paymentProfileId);
     }
+
+    /**
+     * @return Collection
+     */
+    public function getPaymentMethods()
+    {
+        return \DB::table('user_payment_profiles')->where('user_id', $this->user->id)->get();
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getPaymentCardProfiles()
+    {
+        $paymentMethods = $this->getPaymentMethods();
+        return collect($paymentMethods->where('type', 'card')->all());
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getPaymentBankProfiles()
+    {
+        $paymentMethods = $this->getPaymentMethods();
+        return collect($paymentMethods->where('type', 'bank')->all());
+    }
+
 }

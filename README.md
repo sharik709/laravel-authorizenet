@@ -147,9 +147,9 @@ ANet/AuthorizeNetServiceProvider::class
 in your ```.env``` file you will need to define following keys
 ```
 [AUTHORIZE NET]
-LoginID=
-ClientKey=
-TransactionKey=
+AUTHORIZE_NET_LOGIN_ID=
+AUTHORIZE_NET_CLIENT_KEY=
+AUTHORIZE_NET_TRANSACTION_KEY=
 ```
 you can obtain above information from authorize.net's sandbox or live account. It's best if you define above keys in your ```.env.example``` file as well
 

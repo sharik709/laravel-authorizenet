@@ -5,9 +5,14 @@ use ANet\CustomerProfile\CustomerProfile;
 use ANet\PaymentProfile\PaymentProfile;
 use ANet\PaymentProfile\PaymentProfileCharge;
 use ANet\PaymentProfile\PaymentProfileRefund;
+use ANet\Transactions\Transactions;
+use DB;
+use Exception;
 use Illuminate\Support\Collection;
+use net\authorize\api\contract\v1\CreateTransactionResponse;
 
-class ANet {
+class ANet
+{
 
     /**
      * @var User
@@ -27,7 +32,7 @@ class ANet {
      * It will create customer profile on authorize net
      * and store payment profile id in the system.
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
     public function createCustomerProfile()
     {
@@ -37,10 +42,11 @@ class ANet {
     /**
      * @return mixed
      */
-    public function getCustomerProfileId() {
-        $data = \DB::table('user_gateway_profiles')
-                    ->where('user_id', $this->user->id)
-                    ->first();
+    public function getCustomerProfileId()
+    {
+        $data = DB::table('user_gateway_profiles')
+            ->where('user_id', $this->user->id)
+            ->first();
         return $data->profile_id;
     }
 
@@ -59,10 +65,10 @@ class ANet {
      */
     public function getPaymentProfiles()
     {
-        $data = \DB::table('user_payment_profiles')
-                    ->where('user_id', $this->user->id)
-                    ->get();
-        return $data->map(function($profile){
+        $data = DB::table('user_payment_profiles')
+            ->where('user_id', $this->user->id)
+            ->get();
+        return $data->map(function ($profile) {
             return $profile->payment_profile_id;
         });
     }
@@ -93,7 +99,7 @@ class ANet {
      */
     public function getPaymentMethods()
     {
-        return \DB::table('user_payment_profiles')->where('user_id', $this->user->id)->get();
+        return DB::table('user_payment_profiles')->where('user_id', $this->user->id)->get();
     }
 
     /**
@@ -112,6 +118,15 @@ class ANet {
     {
         $paymentMethods = $this->getPaymentMethods();
         return collect($paymentMethods->where('type', 'bank')->all());
+    }
+
+    /**
+     * It will return transaction class instance to help with transaction related queries
+     * @return Transactions
+     */
+    public function transactions()
+    {
+        return new Transactions($this->user, new CreateTransactionResponse());
     }
 
 }

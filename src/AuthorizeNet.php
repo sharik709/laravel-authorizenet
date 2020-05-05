@@ -1,6 +1,8 @@
 <?php
 namespace ANet;
 
+use Exception;
+use net\authorize\api\constants\ANetEnvironment;
 use net\authorize\api\contract\v1 as AnetAPI;
 
 abstract class AuthorizeNet
@@ -34,7 +36,7 @@ abstract class AuthorizeNet
     private function _getLoginID() {
         $loginId = config('authorizenet.login_id');
         if (!$loginId) {
-            throw new \Exception('Please provide Login ID in .env file. Which you can get from authorize.net');
+            throw new Exception('Please provide Login ID in .env file. Which you can get from authorize.net');
         }
 
         return $loginId;
@@ -43,7 +45,7 @@ abstract class AuthorizeNet
     private function _getTransactionKey() {
         $transactionKey = config('authorizenet.transaction_key');
         if (!$transactionKey) {
-            throw new \Exception('Please provide transaction key in .env file. Which you can get from authorize.net');
+            throw new Exception('Please provide transaction key in .env file. Which you can get from authorize.net');
         }
 
         return $transactionKey;
@@ -81,7 +83,7 @@ abstract class AuthorizeNet
      * it will return refId if not provided then time
      * @return string
      */
-    public function getRefId()
+    protected function getRefId()
     {
         return $this->refId || time();
     }
@@ -149,11 +151,10 @@ abstract class AuthorizeNet
      */
     public function execute($controller)
     {
-        if( app()->environment() === 'testing' || app()->environment() === 'local' )
-        {
-            return $controller->executeWithApiResponse(\net\authorize\api\constants\ANetEnvironment::SANDBOX);
+        if (app()->environment() === 'testing' || app()->environment() === 'local') {
+            return $controller->executeWithApiResponse(ANetEnvironment::SANDBOX);
         }
-        return $controller->executeWithApiResponse(\net\authorize\api\constants\ANetEnvironment::PRODUCTION);
+        return $controller->executeWithApiResponse(ANetEnvironment::PRODUCTION);
     }
 
 }

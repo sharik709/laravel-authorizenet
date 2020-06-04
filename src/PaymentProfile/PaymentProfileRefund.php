@@ -7,13 +7,6 @@ use ANet\AuthorizeNet;
 
 class PaymentProfileRefund extends AuthorizeNet
 {
-    private $user;
-
-    public function __construct($user)
-    {
-        $this->user = $user;
-    }
-
     public function handle(int $cents, $refsTransId, $paymentProfileId)
     {
         $amount = $this->convertCentsToDollar($cents);

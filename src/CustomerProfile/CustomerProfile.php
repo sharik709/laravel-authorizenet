@@ -8,14 +8,6 @@ use net\authorize\api\contract\v1 as AnetAPI;
 use net\authorize\api\controller as AnetController;
 
 class CustomerProfile extends AuthorizeNet {
-
-    private $user;
-
-    public function __construct($user)
-    {
-        $this->user = $user;
-    }
-
     /**
      * it will talk to authorize.net and provide some basic information so, that the user can be charged.
      * @param User $user

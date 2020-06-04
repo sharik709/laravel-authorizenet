@@ -13,11 +13,9 @@ use net\authorize\api\contract\v1\CreateTransactionResponse;
 
 class ANet
 {
-
-    /**
-     * @var User
-     */
     protected $user;
+    /** @var ANetMock */
+    public $mock;
 
     /**
      * ANet constructor.
@@ -26,6 +24,7 @@ class ANet
     public function __construct($user)
     {
         $this->user = $user;
+        $this->mock = new ANetMock();
     }
 
     /**
@@ -47,7 +46,7 @@ class ANet
         $data = DB::table('user_gateway_profiles')
             ->where('user_id', $this->user->id)
             ->first();
-        return $data->profile_id;
+        return optional($data)->profile_id;
     }
 
     /**
@@ -129,4 +128,12 @@ class ANet
         return new Transactions($this->user, new CreateTransactionResponse());
     }
 
+    /**
+     * It will return instance of mock class to mock responses
+     * @return ANetMock
+     */
+    public function mock()
+    {
+        return $this->mock;
+    }
 }

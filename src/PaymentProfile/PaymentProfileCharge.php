@@ -8,14 +8,6 @@ use ANet\AuthorizeNet;
 
 class PaymentProfileCharge extends AuthorizeNet
 {
-    private $user;
-
-
-    public function __construct($user)
-    {
-        $this->user = $user;
-    }
-
     public function charge($cents, $paymentProfileId) {
         $amount = $this->convertCentsToDollar($cents);
 

@@ -7,13 +7,6 @@ use net\authorize\api\controller as AnetControllers;
 
 class PaymentProfile extends AuthorizeNet
 {
-    private $user;
-
-    public function __construct($user)
-    {
-        $this->user = $user;
-    }
-
     public function create($opaqueData, array $source)
     {
         $merchantKeys = $this->getMerchantAuthentication();

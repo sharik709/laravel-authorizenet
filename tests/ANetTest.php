@@ -2,10 +2,17 @@
 
 namespace ANet\Tests;
 
+use ANet\ANetMock;
 use App\User;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use net\authorize\api\contract\v1\CreateCustomerProfileResponse;
+use net\authorize\api\contract\v1\MessagesType;
+use net\authorize\api\contract\v1\TransactionResponseType;
 
 class ANetTest extends BaseTestCase
 {
+    use DatabaseMigrations;
+
     /** @test */
     public function it_will_test_if_trait_implemented_class_returns_instance_of_anet_class()
     {
@@ -164,5 +171,12 @@ class ANetTest extends BaseTestCase
         $user = factory(User::class)->create();
         $paymentCards = $user->anet()->getPaymentBankProfiles();
         $this->assertCount(0, $paymentCards);
+    }
+
+    /** @test */
+    public function it_will_return_instance_to_mock_class_when_mock_method_is_called()
+    {
+        $user = factory(User::class)->create();
+        $this->assertInstanceOf(ANetMock::class, $user->anet()->mock());
     }
 }

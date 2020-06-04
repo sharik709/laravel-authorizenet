@@ -7,10 +7,7 @@ use net\authorize\api\contract\v1 as AnetAPI;
 
 abstract class AuthorizeNet
 {
-
-    /**
-     * @var AnetAPI\MerchantAuthenticationType
-     */
+    /** @var  AnetAPI\MerchantAuthenticationType */
     protected $merchantAuthentication;
 
     /** @var mixed */
@@ -21,6 +18,17 @@ abstract class AuthorizeNet
 
     /** @var AnetAPI\TransactionRequestType */
     protected $transactionType;
+
+    /** @var ANetMock */
+    public $mock;
+
+    public $user;
+
+    public function __construct($user)
+    {
+        $this->mock = new ANetMock();
+        $this->user = $user;
+    }
 
     /**
      * It will setup and get merchant authentication keys
@@ -151,10 +159,27 @@ abstract class AuthorizeNet
      */
     public function execute($controller)
     {
-        if (app()->environment() === 'testing' || app()->environment() === 'local') {
-            return $controller->executeWithApiResponse(ANetEnvironment::SANDBOX);
+        $env = config('app.env');
+        switch ($env) {
+            case 'testing':
+                return $this->testingResponse($controller);
+            case 'local':
+                return $controller->executeWithApiResponse(ANetEnvironment::SANDBOX);
+                break;
+            default:
+                return $controller->executeWithApiResponse(ANetEnvironment::PRODUCTION);
         }
-        return $controller->executeWithApiResponse(ANetEnvironment::PRODUCTION);
+    }
+
+    public function testingResponse($controller)
+    {
+        $classNamespace = preg_split('/\\\/', get_class($this));
+        $className = $classNamespace[array_key_last($classNamespace)];
+        $mock = $this->mock->get($className);
+        if ($mock) {
+            return $mock;
+        }
+        return $controller->executeWithApiResponse(ANetEnvironment::SANDBOX);
     }
 
 }

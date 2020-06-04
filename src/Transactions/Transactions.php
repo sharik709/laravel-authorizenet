@@ -13,11 +13,10 @@ use net\authorize\api\controller as AnetController;
 class Transactions extends AuthorizeNet
 {
     public $transaction;
-    protected $user;
 
     public function __construct($user, CreateTransactionResponse $transaction)
     {
-        $this->user = $user;
+        parent::__construct($user);
         $this->transaction = $transaction;
     }
 

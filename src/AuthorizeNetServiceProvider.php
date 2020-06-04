@@ -4,32 +4,46 @@ use Illuminate\Support\ServiceProvider;
 
 class AuthorizeNetServiceProvider extends ServiceProvider
 {
+    /**
+     * @return void
+     */
+    public function boot()
+    {
+        $this->loadMigrations();
+        $this->setupConfig();
+    }
 
     /**
      * @return void
      */
-    public function boot() {
+    public function loadMigrations()
+    {
         $this->loadMigrationsFrom(__DIR__.'/database/migrations');
-        $this->setupConfig();
     }
 
     /**
      * It will setup configuration file
      * @return void
      */
-    public function setupConfig():void
+    public function setupConfig()
     {
         $configLocation = __DIR__.'/Config/authorizenet.php';
+
         $this->publishes([
             $configLocation => config_path('authorizenet.php')
         ], 'authorizenet');
+
         $this->mergeConfigFrom(
             $configLocation,
             'authorizenet'
         );
     }
 
-    public function register() {}
+    /**
+     * @return void
+     */
+    public function register()
+    {}
 
 
 

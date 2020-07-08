@@ -31,7 +31,7 @@ class PaymentProfile extends AuthorizeNet
 
         // Create the controller and get the response
         $controller = new AnetControllers\CreateCustomerPaymentProfileController($paymentProfileRequest);
-        $response = $controller->executeWithApiResponse(\net\authorize\api\constants\ANetEnvironment::SANDBOX);
+        $response = $this->execute($controller);
 
         if(!is_null($response->getCustomerPaymentProfileId()))  {
             $this->storeInDatabase($response, $source);

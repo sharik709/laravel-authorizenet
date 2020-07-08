@@ -91,7 +91,7 @@ abstract class AuthorizeNet
      * it will return refId if not provided then time
      * @return string
      */
-    protected function getRefId()
+    public function getRefId()
     {
         return $this->refId || time();
     }
@@ -182,4 +182,12 @@ abstract class AuthorizeNet
         return $controller->executeWithApiResponse(ANetEnvironment::SANDBOX);
     }
 
+    public function getANetEnv()
+    {
+        $env = config('app.env');
+        if ($env == 'testing' || $env == 'local') {
+            return ANetEnvironment::SANDBOX;
+        }
+        return ANetEnvironment::PRODUCTION;
+    }
 }

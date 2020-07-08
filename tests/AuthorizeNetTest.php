@@ -3,7 +3,10 @@
 namespace ANet\Tests;
 
 use ANet\AuthorizeNet;
+use ANet\PaymentProfile\PaymentProfile;
 use ANet\Tests\BaseTestCase;
+use App\User;
+use net\authorize\api\constants\ANetEnvironment;
 use net\authorize\api\contract\v1\TransactionRequestType;
 use net\authorize\api\controller\GetHostedPaymentPageController;
 use stdClass;
@@ -16,7 +19,8 @@ class AuthorizeNetTest extends BaseTestCase
     protected function setUp():void
     {
         parent::setUp();
-        $this->authorizenet = $this->getMockForAbstractClass(AuthorizeNet::class);
+        $user = new User();
+        $this->authorizenet = $this->getMockForAbstractClass(AuthorizeNet::class, [$user]);
     }
 
     /** @test */
@@ -86,6 +90,27 @@ class AuthorizeNetTest extends BaseTestCase
             ->getMock();
 
         $this->assertEquals('sandbox', $this->authorizenet->execute($controller));
+    }
+
+
+    public function test_if_Anet_env_is_returned_sandbox_for_local_and_testing()
+    {
+
+        config(['app.env' => 'local']);
+        $anetEnv = $this->authorizenet->getANetEnv();
+        $this->assertEquals(ANetEnvironment::SANDBOX, $anetEnv);
+
+        config(['app.env' => 'testing']);
+        $anetEnv = $this->authorizenet->getANetEnv();
+        $this->assertEquals(ANetEnvironment::SANDBOX, $anetEnv);
+
+    }
+
+    public function test_if_anet_env_is_returning_production_link_for_prod_env()
+    {
+        config(['app.env' => 'prod']);
+        $anetEnv = $this->authorizenet->getANetEnv();
+        $this->assertEquals(ANetEnvironment::PRODUCTION, $anetEnv);
     }
 
 }

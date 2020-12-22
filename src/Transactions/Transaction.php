@@ -10,14 +10,45 @@ use net\authorize\api\contract\v1 as AnetAPI;
 use net\authorize\api\contract\v1\CreateTransactionResponse;
 use net\authorize\api\controller as AnetController;
 
-class Transactions extends AuthorizeNet
+class Transaction extends AuthorizeNet
 {
     public $transaction;
 
+    /** @var string */
+    public $id;
+
+    /** @var string */
+    public $refId;
+
+    /** @var integer */
+    public $responseCode;
+
+    /**
+     * Transaction constructor.
+     * @param $user
+     * @param CreateTransactionResponse $transaction  0 => "getTransactionResponse"
+    1 => "setTransactionResponse"
+    2 => "getProfileResponse"
+    3 => "setProfileResponse"
+    4 => "set"
+    5 => "getRefId"
+    6 => "setRefId"
+    7 => "getMessages"
+    8 => "setMessages"
+    9 => "getSessionToken"
+    10 => "setSessionToken"
+    11 => "jsonSerialize"
+     */
     public function __construct($user, CreateTransactionResponse $transaction)
     {
         parent::__construct($user);
         $this->transaction = $transaction;
+        $this->setupTransaction();
+    }
+
+    private function setupTransaction()
+    {
+        dd(get_class_methods($this->transaction));
     }
 
     /**

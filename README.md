@@ -123,6 +123,83 @@ $user->anet()->createPaymentProfile();
 ```
 
 
+## Transaction Methods
+when you run `$user->anet()->charge($amount, $paymentProfile)` on successful request you will get following methods
+
+- getTransactionResponse:
+    - getResponseCode
+    - setResponseCode
+    - getRawResponseCode
+    - setRawResponseCode
+    - getAuthCode
+    - setAuthCode
+    - getAvsResultCode
+    - setAvsResultCode
+    - getCvvResultCode
+    - setCvvResultCode
+    - getCavvResultCode
+    - setCavvResultCode
+    - getTransId
+    - setTransId
+    - getRefTransID
+    - setRefTransID
+    - getTransHash
+    - setTransHash
+    - getTestRequest
+    - setTestRequest
+    - getAccountNumber
+    - setAccountNumber
+    - getEntryMode
+    - setEntryMode
+    - getAccountType
+    - setAccountType
+    - getSplitTenderId
+    - setSplitTenderId
+    - getPrePaidCard
+    - setPrePaidCard
+    - addToMessages
+    - issetMessages
+    - unsetMessages
+    - getMessages
+    - setMessages
+    - addToErrors
+    - issetErrors
+    - unsetErrors
+    - getErrors
+    - setErrors
+    - addToSplitTenderPayments
+    - issetSplitTenderPayments
+    - unsetSplitTenderPayments
+    - getSplitTenderPayments
+    - setSplitTenderPayments
+    - addToUserFields
+    - issetUserFields
+    - unsetUserFields
+    - getUserFields
+    - setUserFields
+    - getShipTo
+    - setShipTo
+    - getSecureAcceptance
+    - setSecureAcceptance
+    - getEmvResponse
+    - setEmvResponse
+    - getTransHashSha2
+    - setTransHashSha2
+    - getProfile
+    - setProfile
+    - getNetworkTransId
+    - setNetworkTransId
+    - jsonSerialize
+    - set
+
+- getProfileResponse
+
+- getRefId
+
+- getMessages
+
+- getSessionToken
+
 
 __
 

@@ -3,7 +3,7 @@
 namespace ANet\Tests;
 
 use ANet\ANetMock;
-use App\User;
+use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use net\authorize\api\contract\v1\CreateCustomerProfileResponse;
 use net\authorize\api\contract\v1\MessagesType;
@@ -81,6 +81,7 @@ class ANetTest extends BaseTestCase
     {
         $user = $this->getCustomerWithPaymentProfile();
         $charge = $user->anet()->charge(1200, $user->anet()->getPaymentProfiles()[0]);
+        dd(get_class_methods($charge->getTransactionResponse()));
         $this->assertInstanceOf(\net\authorize\api\contract\v1\CreateTransactionResponse::class, $charge);
     }
 

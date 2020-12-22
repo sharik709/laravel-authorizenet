@@ -1,14 +1,14 @@
 <?php
 namespace ANet\PaymentProfile;
 
-use net\authorize\api\contract\v1 as AnetAPI;
 use net\authorize\api\controller as AnetControllers;
-
+use net\authorize\api\contract\v1 as AnetAPI;
+use ANet\Transactions\Transaction;
 use ANet\AuthorizeNet;
 
 class PaymentProfileCharge extends AuthorizeNet
 {
-    public function charge($cents, $paymentProfileId) {
+    public function charge(int $cents, int $paymentProfileId) {
         $amount = $this->convertCentsToDollar($cents);
 
         // Set the transaction's refId
@@ -31,7 +31,6 @@ class PaymentProfileCharge extends AuthorizeNet
         $request->setRefId($this->getRefId());
         $request->setTransactionRequest( $transactionRequestType);
         $controller = new AnetControllers\CreateTransactionController($request);
-
         return $this->execute($controller);
     }
 

@@ -173,12 +173,6 @@ abstract class AuthorizeNet
 
     public function testingResponse($controller)
     {
-        $classNamespace = preg_split('/\\\/', get_class($this));
-        $className = $classNamespace[array_key_last($classNamespace)];
-        $mock = $this->mock->get($className);
-        if ($mock) {
-            return $mock;
-        }
         return $controller->executeWithApiResponse(ANetEnvironment::SANDBOX);
     }
 

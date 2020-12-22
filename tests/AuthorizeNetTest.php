@@ -5,7 +5,7 @@ namespace ANet\Tests;
 use ANet\AuthorizeNet;
 use ANet\PaymentProfile\PaymentProfile;
 use ANet\Tests\BaseTestCase;
-use App\User;
+use App\Models\User;
 use net\authorize\api\constants\ANetEnvironment;
 use net\authorize\api\contract\v1\TransactionRequestType;
 use net\authorize\api\controller\GetHostedPaymentPageController;

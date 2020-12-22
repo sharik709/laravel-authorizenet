@@ -2,6 +2,7 @@
 
 namespace ANet\Tests;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -18,7 +19,7 @@ abstract class BaseTestCase extends TestCase
      */
     public function getFakeUser()
     {
-        return factory(\App\User::class)->create();
+        return User::factory()->create();
     }
 
     public function generateCustomerId($user = null)

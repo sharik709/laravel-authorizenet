@@ -16,14 +16,14 @@ class TransactionsTest extends BaseTestCase
 
     public function testTransaction()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $transactionInst = $user->anet()->transactions();
         $this->assertInstanceOf(Transactions::class, $transactionInst);
     }
 
     public function testIsApproved()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $response = new CreateTransactionResponse();
         $transactionResponse = new TransactionResponseType();
         $transactionResponse->setTransId(123123);

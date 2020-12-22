@@ -152,7 +152,7 @@ class ANetTest extends BaseTestCase
     /** @test */
     public function it_will_return_empty_collection_as_no_payment_methods_exists()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $paymentCards = $user->anet()->getPaymentMethods();
         $this->assertCount(0, $paymentCards);
     }
@@ -160,7 +160,7 @@ class ANetTest extends BaseTestCase
     /** @test */
     public function it_will_return_empty_collection_as_no_payment_card_profile_exists()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $paymentCards = $user->anet()->getPaymentCardProfiles();
         $this->assertCount(0, $paymentCards);
     }
@@ -168,7 +168,7 @@ class ANetTest extends BaseTestCase
     /** @test */
     public function it_will_return_empty_collection_as_no_payment_bank_profile_exists()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $paymentCards = $user->anet()->getPaymentBankProfiles();
         $this->assertCount(0, $paymentCards);
     }
@@ -176,7 +176,7 @@ class ANetTest extends BaseTestCase
     /** @test */
     public function it_will_return_instance_to_mock_class_when_mock_method_is_called()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $this->assertInstanceOf(ANetMock::class, $user->anet()->mock());
     }
 }

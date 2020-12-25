@@ -122,6 +122,20 @@ $user->anet()->getPaymentProfiles();
 $user->anet()->createPaymentProfile();
 ```
 
+### Card Charge
+```php
+        // $user is your laravel user model
+        $response = $user
+            ->anet()
+            ->card()
+            ->setNumbers(4111111111111111)
+            ->setCVV(111)
+            ->setNameOnCard('John Doe')
+            ->setExpMonth(4)
+            ->setExpYear(42)
+            ->setAmountInCents(1000) // $10
+            ->charge();
+```
 
 ## Transaction Methods
 when you run `$user->anet()->charge($amount, $paymentProfile)` on successful request you will get following methods

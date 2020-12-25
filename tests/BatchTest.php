@@ -4,27 +4,38 @@ namespace ANet\Tests;
 
 use ANet\Transactions\Batch;
 use Exception;
+use App\Models\User;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use net\authorize\api\contract\v1\BatchStatisticType;
 
 class BatchTest extends BaseTestCase
 {
+    use DatabaseMigrations;
+
+    private function getBatchInstance($user = null)
+    {
+        if (is_null($user)) {
+            $user = User::factory()->create();
+        }
+        return new Batch($user);
+    }
 
     public function testValidate_should_pass()
     {
-        $batch = new Batch();
+        $batch = $this->getBatchInstance();
         $this->assertNull($batch->validate('2019-01-01', '2019-01-29'));
     }
 
     public function testValidate_should_fail()
     {
         $this->expectException(Exception::class);
-        $batch = new Batch();
+        $batch = $this->getBatchInstance();
         $batch->validate('2019-01-01', '2019-02-30');
     }
 
     public function testGetSettledBatchList()
     {
-        $batch = new Batch();
+        $batch = $this->getBatchInstance();
         $firstDate = '2019-03-01';
         $secondDate = '2019-03-29';
         $list = $batch->getSettledBatchList($firstDate, $secondDate, true);
@@ -41,7 +52,7 @@ class BatchTest extends BaseTestCase
         $stat->setVoidCount(0);
         $stat->setDeclineCount(rand(0, 10));
         $stat->setErrorCount(0);
-        $batch = new Batch();
+        $batch = $this->getBatchInstance();
         $normalizedStats = $batch->normalizeBatchStatistics([$stat])[0];
 
         $this->assertEquals($stat->getAccountType(), $normalizedStats['accountType']);

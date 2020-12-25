@@ -5,6 +5,7 @@ use ANet\CustomerProfile\CustomerProfile;
 use ANet\PaymentProfile\PaymentProfile;
 use ANet\PaymentProfile\PaymentProfileCharge;
 use ANet\PaymentProfile\PaymentProfileRefund;
+use ANet\Transactions\Card;
 use ANet\Transactions\Transactions;
 use DB;
 use Exception;
@@ -135,5 +136,10 @@ class ANet
     public function mock()
     {
         return $this->mock;
+    }
+
+    public function card()
+    {
+        return new Card($this);
     }
 }

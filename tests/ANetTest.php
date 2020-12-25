@@ -3,6 +3,7 @@
 namespace ANet\Tests;
 
 use ANet\ANetMock;
+use ANet\Transactions\Card;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use net\authorize\api\contract\v1\CreateCustomerProfileResponse;
@@ -81,7 +82,6 @@ class ANetTest extends BaseTestCase
     {
         $user = $this->getCustomerWithPaymentProfile();
         $charge = $user->anet()->charge(1200, $user->anet()->getPaymentProfiles()[0]);
-        dd(get_class_methods($charge->getTransactionResponse()));
         $this->assertInstanceOf(\net\authorize\api\contract\v1\CreateTransactionResponse::class, $charge);
     }
 
@@ -179,5 +179,12 @@ class ANetTest extends BaseTestCase
     {
         $user = User::factory()->create();
         $this->assertInstanceOf(ANetMock::class, $user->anet()->mock());
+    }
+
+    /** @test */
+    public function it_will_return_instance_of_card_class()
+    {
+        $user = User::factory()->create();
+        $this->assertInstanceOf(Card::class, $user->anet()->card());
     }
 }

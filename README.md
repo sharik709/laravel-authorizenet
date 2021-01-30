@@ -214,8 +214,76 @@ when you run `$user->anet()->charge($amount, $paymentProfile)` on successful req
 
 - getSessionToken
 
+___
 
-__
+## Recurring Payments or Subscriptions
+
+You can use any of the following method to get instance of subscription class which allow you to manage subscriptions. They all are same, gave them different aliases because wanted to make sure it fits your env context.
+
+
+```phpt
+    $user->anet()->subs();
+    $user->anet()->subscription();
+    $user->anet()->recurring();
+```
+
+You can create, update, cancel and get subscriptions via following methods
+
+#### 1. Create Subscription
+```phpt
+$response = $user->anet()->subs()->create([
+    'name'  => 'Sample Subscription',
+    'startDate' => '2022-03-12',
+    'totalOccurrences' => 12,
+    'trialOccurrences' => 1,
+    'intervalLength' => 30,
+    'intervalLengthUnit' => 'days',
+    'amountInDollars' => 10, // $10
+    'trialAmountInDollars' => 0, // $0
+    'cardNumber' => 4111111111111111,
+    'cardExpiry' => '2038-12',
+    'invoiceNumber' => 1232434243,
+    'subscriptionDescription' => 'Some services will be provided some how.',
+    'customerFirstName' => 'john',
+    'customerLastName' => 'doe'
+]);
+```
+`$response` will give you subscription id and required details regarding the subscription.
+
+#### 2. Update Subscription
+```phpt
+$response = $user->anet()->subs()->update($subscriptionId, [
+    'cardNumber' => 4111111111111111,
+    'cardExpiry' => '2022-12'
+]);
+```
+
+#### 3. Cancel Subscription
+```phpt
+$response = $user->anet()->subs()->cancel($subscriptionId);
+```
+
+#### 4. Get a Subscription
+```phpt
+$response = $user->anet()->subs()->get($subscriptionId);
+```
+
+#### 5. Get all subscriptions with filters
+```phpt
+$options = [
+    'orderBy' => 'id',
+    'orderDescending' => false,
+    'limit' => 300, // Default is 1000
+    'offset' => 2, // Default is 1
+    'searchType' => 'subscriptionActive', // subscriptionActive, subscriptionInactive. Default is subscriptionActive
+];
+$response = $user->anet()->subs()->getList($options);
+
+```
+
+if you don't want to use filters don't pass any options array. It will use defaults and give you your list.
+
+___
 
 # License
 MIT

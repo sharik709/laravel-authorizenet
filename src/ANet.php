@@ -142,4 +142,20 @@ class ANet
     {
         return new Card($this);
     }
+
+    public function subs()
+    {
+        return $this->subscription();
+    }
+
+
+    public function recurring()
+    {
+        return $this->subscription();
+    }
+
+    public function subscription()
+    {
+        return new Subscription($this);
+    }
 }

@@ -162,10 +162,9 @@ abstract class AuthorizeNet
         $env = config('app.env');
         switch ($env) {
             case 'testing':
-                return $this->testingResponse($controller);
+                return $controller->executeWithApiResponse(ANetEnvironment::SANDBOX);
             case 'local':
                 return $controller->executeWithApiResponse(ANetEnvironment::SANDBOX);
-                break;
             default:
                 return $controller->executeWithApiResponse(ANetEnvironment::PRODUCTION);
         }

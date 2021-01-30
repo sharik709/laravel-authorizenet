@@ -3,6 +3,7 @@
 namespace ANet\Tests;
 
 use ANet\ANetMock;
+use ANet\Subscription;
 use ANet\Transactions\Card;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -186,5 +187,26 @@ class ANetTest extends BaseTestCase
     {
         $user = User::factory()->create();
         $this->assertInstanceOf(Card::class, $user->anet()->card());
+    }
+
+    /** @test */
+    public function it_test_if_subs_method_is_available()
+    {
+        $user = User::factory()->create();
+        $this->assertInstanceOf(Subscription::class, $user->anet()->subs());
+    }
+
+    /** @test */
+    public function it_tests_if_subscription_method_is_available()
+    {
+        $user = User::factory()->create();
+        $this->assertInstanceOf(Subscription::class, $user->anet()->subscription());
+    }
+
+    /** @test */
+    public function it_tests_if_recurring_method_is_available()
+    {
+        $user = User::factory()->create();
+        $this->assertInstanceOf(Subscription::class, $user->anet()->recurring());
     }
 }

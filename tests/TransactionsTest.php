@@ -2,8 +2,8 @@
 
 namespace ANet\Tests;
 
-use ANet\Transactions\Transactions;
-use App\User;
+use ANet\Transactions\Transaction;
+use App\Models\User;
 use Cache;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use net\authorize\api\contract\v1\CreateTransactionResponse;
@@ -16,13 +16,15 @@ class TransactionsTest extends BaseTestCase
 
     public function testTransaction()
     {
+        $this->markTestSkipped('Idea of this class has been skipped');
         $user = User::factory()->create();
-        $transactionInst = $user->anet()->transactions();
-        $this->assertInstanceOf(Transactions::class, $transactionInst);
+        $transactionInst = $user->anet()->transaction();
+        $this->assertInstanceOf(Transaction::class, $transactionInst);
     }
 
     public function testIsApproved()
     {
+        $this->markTestSkipped('Idea of this class has been skipped');
         $user = User::factory()->create();
         $response = new CreateTransactionResponse();
         $transactionResponse = new TransactionResponseType();
@@ -32,12 +34,13 @@ class TransactionsTest extends BaseTestCase
         $message->setDescription('This transaction has been approved.');
         $transactionResponse->setMessages([$message]);
         $response->setTransactionResponse($transactionResponse);
-        $transaction = new Transactions($user, $response);
+        $transaction = new Transaction($user, $response);
         $this->assertTrue($transaction->isApproved());
     }
 
     public function testIsRequestSuccessful_when_its_successful()
     {
+        $this->markTestSkipped('Idea of this class has been skipped');
         $response = new CreateTransactionResponse();
         $transactionResponse = new TransactionResponseType();
         $transactionResponse->setTransId(123123);
@@ -45,12 +48,13 @@ class TransactionsTest extends BaseTestCase
         $message->setResultCode('ok');
         $response->setMessages($message);
         $response->setTransactionResponse($transactionResponse);
-        $transaction = new Transactions('user', $response);
+        $transaction = new Transaction('user', $response);
         $this->assertTrue($transaction->isRequestSuccessful());
     }
 
     public function testIsRequestSuccessful_when_its_failed()
     {
+        $this->markTestSkipped('Idea of this class has been skipped');
         $response = new CreateTransactionResponse();
         $transactionResponse = new TransactionResponseType();
         $transactionResponse->setTransId(123123);
@@ -58,12 +62,15 @@ class TransactionsTest extends BaseTestCase
         $message->setResultCode('error');
         $response->setMessages($message);
         $response->setTransactionResponse($transactionResponse);
-        $transaction = new Transactions('user', $response);
+        $transaction = new Transaction('user', $response);
         $this->assertFalse($transaction->isRequestSuccessful());
     }
 
     public function testGetId()
     {
+        $this->markTestSkipped('Idea of this class has been skipped');
+
+
         $transId = 123123;
         $response = new CreateTransactionResponse();
         $transactionResponse = new TransactionResponseType();
@@ -72,13 +79,14 @@ class TransactionsTest extends BaseTestCase
         $message->setResultCode('error');
         $response->setMessages($message);
         $response->setTransactionResponse($transactionResponse);
-        $transaction = new Transactions('', $response);
+        $transaction = new Transaction('', $response);
         $this->assertEquals($transId, $transaction->getId());
     }
 
     public function testGetRefId()
     {
         $t = Cache::get('trans');
+        $this->markTestSkipped('Idea of this class has been skipped');
 
         $transId = 123123;
         $response = new CreateTransactionResponse();
@@ -88,12 +96,14 @@ class TransactionsTest extends BaseTestCase
         $message->setResultCode('error');
         $response->setMessages($message);
         $response->setTransactionResponse($transactionResponse);
-        $transaction = new Transactions('', $response);
+        $transaction = new Transaction('', $response);
         $this->assertEquals($transId, $transaction->getRefTransID());
     }
 
     public function testDynamicMethodCaller()
     {
+        $this->markTestSkipped('Idea of this class has been skipped');
+
         $response = new CreateTransactionResponse();
         $transactionResponse = new TransactionResponseType();
         $transactionResponse->setRefTransID(123123);
@@ -102,7 +112,7 @@ class TransactionsTest extends BaseTestCase
         $message->setResultCode('error');
         $response->setMessages($message);
         $response->setTransactionResponse($transactionResponse);
-        $transaction = new Transactions('user', $response);
+        $transaction = new Transaction('user', $response);
         $this->assertEquals(123123, $transaction->getRefTransId());
         $this->assertEquals('error', $transaction->getResponseCode());
     }
@@ -110,6 +120,8 @@ class TransactionsTest extends BaseTestCase
     /** @test */
     public function all()
     {
+        $this->markTestSkipped('Idea of this class has been skipped');
+
         $user = Cache::get('user');
         $transactions = $user->anet()->transactions()->all();
         $this->assertCount(1, $transactions);

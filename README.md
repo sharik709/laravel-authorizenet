@@ -283,6 +283,11 @@ $response = $user->anet()->subs()->getList($options);
 
 if you don't want to use filters don't pass any options array. It will use defaults and give you your list.
 
+#### 6. Get status of the subscription
+```phpt
+$response = $user->anet()->subs()->getStatus($subscriptionId);
+```
+
 ___
 
 # License

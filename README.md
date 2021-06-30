@@ -29,6 +29,10 @@ and you are ready to move.
 $user->anet()->createPaymentProfile([
     'dataValue' => $opaqueData->dataValue,
     'dataDescriptor' => $opaqueData->dataDescriptor
+], [
+    'last_4' => 1234,
+    'brand'  => 'VISA',
+    'type'   => 'DebitCard'
 ])
 ```
 Payment Profile is a way to solve a problem with storing credit and bank details in database.

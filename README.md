@@ -32,7 +32,7 @@ $user->anet()->createPaymentProfile([
 ], [
     'last_4' => 1234,
     'brand'  => 'VISA',
-    'type'   => 'DebitCard'
+    'type'   => 'card'
 ])
 ```
 Payment Profile is a way to solve a problem with storing credit and bank details in database.
